@@ -1,6 +1,16 @@
+# Using bash
+SHELL := /bin/bash
+
+# One worker at the time
+MAKEFLAGS = --jobs=1
+
 .PHONY: setup
 setup: ## 配置相關套件
 	brew install wrk
+
+.PHONY: init
+init: ## 初始化執行環境
+	cp .env.example .env
 
 .PHONY: clean
 clean: ## 清理 log 檔案
