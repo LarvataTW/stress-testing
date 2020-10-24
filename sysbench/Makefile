@@ -11,8 +11,11 @@ MYSQL_HOST = docker.for.mac.localhost
 .PHONY: init
 init: ## 初始化環境
 	docker pull severalnines/sysbench
-	mysql -v -u root -p -h ${MYSQL_HOST} -e "CREATE SCHEMA sbtest; CREATE USER sbtest@'%' IDENTIFIED BY 'password'; GRANT ALL PRIVILEGES ON sbtest.* to sbtest@'%';"
-	docker run --rm -e TZ="Asia/Taipei" serveralnines/sysbench ls /usr/share/sysbench
+	mysql -v -u root -p -h ${MYSQL_HOST} -e \
+		"CREATE DATABASE IF NOT EXISTS sbtest; \
+		 CREATE USER IF NOT EXISTS sbtest@'%' IDENTIFIED BY 'password'; \
+		 GRANT ALL PRIVILEGES ON sbtest.* to sbtest@'%';"
+	docker run --rm -e TZ="Asia/Taipei" severalnines/sysbench ls /usr/share/sysbench
 	docker run --rm -v ${PWD}:/data -e TZ="Asia/Taipei" -w /data severalnines/sysbench sysbench \
 		--db-driver=mysql \
 		--oltp-table-size=100000 \
