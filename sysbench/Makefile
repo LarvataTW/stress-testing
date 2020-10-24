@@ -16,6 +16,9 @@ init: ## 初始化環境
 		 CREATE USER IF NOT EXISTS sbtest@'%' IDENTIFIED BY 'password'; \
 		 GRANT ALL PRIVILEGES ON sbtest.* to sbtest@'%';"
 	docker run --rm -e TZ="Asia/Taipei" severalnines/sysbench ls /usr/share/sysbench
+
+.PHONY: test
+test: ## 執行壓力測試
 	docker run --rm -v ${PWD}:/data -e TZ="Asia/Taipei" -w /data severalnines/sysbench sysbench \
 		--db-driver=mysql \
 		--oltp-table-size=100000 \
@@ -27,9 +30,6 @@ init: ## 初始化環境
 		--mysql-password=password \
 		/usr/share/sysbench/tests/include/oltp_legacy/parallel_prepare.lua \
 		run
-
-.PHONY: test
-test: ## 執行壓力測試
 	docker run --rm -v ${PWD}:/data -e TZ="Asia/Taipei" -w /data severalnines/sysbench sysbench \
 		--db-driver=mysql \
 		--report-interval=2 \
