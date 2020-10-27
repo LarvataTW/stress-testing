@@ -1,10 +1,13 @@
 ---
 
+one_node_ip: &one_node_ip your.one.node.ip
+all_nodes_domain: &all_nodes_domain your.system.domain
+
 tests:
 
   - output_file: one-node-1000.jmx
     thread_group_name: one-node-1000
-    domain: your.one.node.ip
+    domain: *one_node_ip
     protocol: http
     port: 80
     path: /
@@ -14,7 +17,7 @@ tests:
 
   - output_file: one-node-3000.jmx
     thread_group_name: one-node-3000
-    domain: your.one.node.ip
+    domain: *one_node_ip
     protocol: http
     port: 80
     path: /
@@ -24,7 +27,7 @@ tests:
 
   - output_file: one-node-5000.jmx
     thread_group_name: one-node-5000
-    domain: your.one.node.ip
+    domain: *one_node_ip
     protocol: http
     port: 80
     path: /
@@ -34,7 +37,7 @@ tests:
 
   - output_file: all-nodes-5000.jmx
     thread_group_name: all-nodes-5000
-    domain: your.system.domain
+    domain: *all_nodes_domain
     protocol: http
     port: 80
     path: /
@@ -44,7 +47,7 @@ tests:
 
   - output_file: all-nodes-10000.jmx
     thread_group_name: all-nodes-10000
-    domain: your.system.domain
+    domain: *all_nodes_domain
     protocol: http
     port: 80
     path: /
@@ -54,7 +57,7 @@ tests:
 
   - output_file: all-nodes-20000.jmx
     thread_group_name: all-nodes-20000
-    domain: your.system.domain
+    domain: *all_nodes_domain
     protocol: http
     port: 80
     path: /
