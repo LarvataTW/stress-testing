@@ -38,8 +38,7 @@ sysbench: ## 執行主機基本效能測試
 		--test=fileio \
 		--file-total-size=10G \
 		--file-test-mode=rndrw \
-		--init-rng=on \
-		--max-time=300 \
+		--time=60 \
 		--max-requests=0 \
 		run
 	docker run --rm -v ${PWD}:/data -e TZ="Asia/Taipei" -w /data severalnines/sysbench sysbench \
