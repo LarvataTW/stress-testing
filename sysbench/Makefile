@@ -13,17 +13,12 @@ MYSQL_USER = root
 init: ## 初始化環境
 	docker pull severalnines/sysbench
 	docker run --rm -e TZ="Asia/Taipei" severalnines/sysbench ls /usr/share/sysbench
-	curl -L https://github.com/Percona-Lab/sysbench-tpcc/archive/master.zip -o sysbench-tpcc-master.zip && unzip sysbench-tpcc-master.zip
-	mysql -v -u ${MYSQL_USER} -p -h ${MYSQL_HOST} -e \
-		"CREATE DATABASE IF NOT EXISTS sbtest; \
-		 CREATE USER IF NOT EXISTS sbtest@'%' IDENTIFIED BY 'password'; \
-		 GRANT ALL PRIVILEGES ON sbtest.* to sbtest@'%';"
 
 .PHONY: test
 test: ## 執行壓力測試
 	$(MAKE) sysbench
 	$(MAKE) mysql
-	$(MAKE) tpcc
+	$(MAKE) clean
 
 .PHONY: sysbench
 sysbench: ## 執行主機基本效能測試
@@ -49,6 +44,10 @@ sysbench: ## 執行主機基本效能測試
 
 .PHONY: mysql
 mysql: ## 執行 MySQL 壓力測試
+	mysql -v -u ${MYSQL_USER} -p -h ${MYSQL_HOST} -e \
+		"CREATE DATABASE IF NOT EXISTS sbtest; \
+		 CREATE USER IF NOT EXISTS sbtest@'%' IDENTIFIED BY 'password'; \
+		 GRANT ALL PRIVILEGES ON sbtest.* to sbtest@'%';"
 	docker run --rm -v ${PWD}:/data -e TZ="Asia/Taipei" -w /data severalnines/sysbench sysbench \
 		--db-driver=mysql \
 		--oltp-table-size=100000 \
@@ -74,14 +73,16 @@ mysql: ## 執行 MySQL 壓力測試
 		--mysql-password=password \
 		/usr/share/sysbench/tests/include/oltp_legacy/oltp.lua \
 		run
+	mysql -v -u ${MYSQL_USER} -p -h ${MYSQL_HOST} -e "DROP SCHEMA sbtest;"
 
 .PHONY: tpcc
 tpcc: ## 執行 TPCC 壓力測試
-	echo 'do nothing'
+	curl -L https://github.com/Percona-Lab/sysbench-tpcc/archive/master.zip -o sysbench-tpcc-master.zip && \
+		unzip sysbench-tpcc-master.zip
 
 .PHONY: clean
 clean: ## 清理測試資料
-	mysql -v -u ${MYSQL_USER} -p -h ${MYSQL_HOST} -e "DROP SCHEMA sbtest;"
+	echo 'do nothing'
 
 # Absolutely awesome: http://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
 .PHONY: help
