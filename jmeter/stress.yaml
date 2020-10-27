@@ -1,0 +1,63 @@
+---
+
+tests:
+
+  - output_file: one-node-1000.jmx
+    thread_group_name: one-node-1000
+    domain: your.one.node.ip
+    protocol: http
+    port: 80
+    path: /
+    num_threads: 200
+    duration: 1
+    concurrent_download: true
+
+  - output_file: one-node-3000.jmx
+    thread_group_name: one-node-3000
+    domain: your.one.node.ip
+    protocol: http
+    port: 80
+    path: /
+    num_threads: 600
+    duration: 1
+    concurrent_download: true
+
+  - output_file: one-node-5000.jmx
+    thread_group_name: one-node-5000
+    domain: your.one.node.ip
+    protocol: http
+    port: 80
+    path: /
+    num_threads: 1000
+    duration: 1
+    concurrent_download: true
+
+  - output_file: all-nodes-5000.jmx
+    thread_group_name: all-nodes-5000
+    domain: your.system.domain
+    protocol: http
+    port: 80
+    path: /
+    num_threads: 1000
+    duration: 1
+    concurrent_download: true
+
+  - output_file: all-nodes-10000.jmx
+    thread_group_name: all-nodes-10000
+    domain: your.system.domain
+    protocol: http
+    port: 80
+    path: /
+    num_threads: 2000
+    duration: 1
+    concurrent_download: true
+
+  - output_file: all-nodes-20000.jmx
+    thread_group_name: all-nodes-20000
+    domain: your.system.domain
+    protocol: http
+    port: 80
+    path: /
+    num_threads: 4000
+    duration: 1
+    concurrent_download: true
