@@ -1,28 +1,20 @@
 #!/usr/bin/env bash
 
-source .env
+APPLICATION=your.system.name
+TARGET_URL=http://your.node.ip
+DURATION=10
+THREADS=8
 
 TIME=$(date +'%Y%m%d%H%M%S')
-TOKEN="${TOKEN}"
 
-curl \
-  --request POST \
-  --url "${LOGIN_URL}" \
-  --header "Accept: application/json" \
-  --header "Content-Type: application/json" \
-  --data "{\"email\":\"${EMAIL}\",\"password\":\"${PASSWORD}\"}"
-
-sleep 1
-
-for CONNECTION in 50 100 200 300; do
-  FILENAME=result/"${APPLICATION}"_"${CONNECTION}"_"${TIME}".log
+for CONNECTION in 1000 3000 5000; do
+  FILENAME="${APPLICATION}"_"${CONNECTION}"_"${TIME}".log
   touch $FILENAME
 
-  wrk \
+  docker run --rm --net=host williamyeh/wrk \
     -c ${CONNECTION} \
     -t ${THREADS} \
-    -d ${DURATION}s \
-    -H "Authorization: Bearer ${TOKEN}" \
+    -d ${DURATION} \
     --latency \
     --timeout 1000 \
     "${TARGET_URL}" >> $FILENAME
