@@ -7,13 +7,14 @@ MAKEFLAGS = --jobs=1
 # https://stackoverflow.com/questions/2373081/assign-a-makefile-variable-value-to-a-bash-command-result
 NOW = $(shell date +"%Y%m%d_%H%M%S")
 MYSQL_HOST = docker.for.mac.localhost
+MYSQL_USER = root
 
 .PHONY: init
 init: ## 初始化環境
 	docker pull severalnines/sysbench
 	docker run --rm -e TZ="Asia/Taipei" severalnines/sysbench ls /usr/share/sysbench
 	curl -L https://github.com/Percona-Lab/sysbench-tpcc/archive/master.zip -o sysbench-tpcc-master.zip && unzip sysbench-tpcc-master.zip
-	mysql -v -u root -p -h ${MYSQL_HOST} -e \
+	mysql -v -u ${MYSQL_USER} -p -h ${MYSQL_HOST} -e \
 		"CREATE DATABASE IF NOT EXISTS sbtest; \
 		 CREATE USER IF NOT EXISTS sbtest@'%' IDENTIFIED BY 'password'; \
 		 GRANT ALL PRIVILEGES ON sbtest.* to sbtest@'%';"
@@ -80,7 +81,7 @@ tpcc: ## 執行 TPCC 壓力測試
 
 .PHONY: clean
 clean: ## 清理測試資料
-	mysql -v -u root -p -h ${MYSQL_HOST} -e "DROP SCHEMA sbtest;"
+	mysql -v -u ${MYSQL_USER} -p -h ${MYSQL_HOST} -e "DROP SCHEMA sbtest;"
 
 # Absolutely awesome: http://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
 .PHONY: help
