@@ -15,7 +15,12 @@ init: ## 初始化環境
 	python3 generator.py
 
 .PHONY: test
-test: ## 執行壓力測試，用法：make target=./stree.jmx test
+test: ## 執行壓力測試
+	bash 00_baseline.sh
+	bash 01_jmeter.sh
+
+.PHONY: jmeter
+jmeter: ## 執行壓力測試，用法：make target=./stree.jmx test
 	docker run --rm --network=host -i -v ${PWD}:/jmeter -e TZ="Asia/Taipei" -w /jmeter justb4/jmeter -n -t ${target} -l ${NAME}.jtl -e -o ${NAME}
 	mv *.log ${NAME}/
 	zip -r ${HOSTNAME}_${NAME}-${NOW}.zip ${NAME}/
