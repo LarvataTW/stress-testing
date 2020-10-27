@@ -22,6 +22,7 @@ init: ## 初始化環境
 test: ## 執行壓力測試
 	$(MAKE) sysbench
 	$(MAKE) mysql
+	$(MAKE) tpcc
 
 .PHONY: sysbench
 sysbench: ## 執行主機基本效能測試
@@ -75,7 +76,7 @@ mysql: ## 執行 MySQL 壓力測試
 		run
 
 .PHONY: tpcc
-clean: ## 執行 TPCC 壓力測試
+tpcc: ## 執行 TPCC 壓力測試
 	echo 'do nothing'
 
 .PHONY: clean
