@@ -5,10 +5,9 @@ TARGET_URL=http://your.node.ip
 CONNECTIONS=( 1000 3000 5000 )
 DURATION=10
 THREADS=8
-
 TIME=$(date +'%Y%m%d%H%M%S')
 
-for CONNECTION in "$CONNECTIONS[@]"; do
+for CONNECTION in "${CONNECTIONS[@]}"; do
   FILENAME="${APPLICATION}"_"${CONNECTION}"_"${TIME}".log
   touch $FILENAME
 
