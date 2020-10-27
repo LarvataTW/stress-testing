@@ -12,7 +12,7 @@ MYSQL_HOST = docker.for.mac.localhost
 init: ## 初始化環境
 	docker pull severalnines/sysbench
 	docker run --rm -e TZ="Asia/Taipei" severalnines/sysbench ls /usr/share/sysbench
-	curl -L https://github.com/Percona-Lab/sysbench-tpcc/archive/master.zip -o tpcc.zip && unzip tpcc.zip
+	curl -L https://github.com/Percona-Lab/sysbench-tpcc/archive/master.zip -o sysbench-tpcc-master.zip && unzip sysbench-tpcc-master.zip
 	mysql -v -u root -p -h ${MYSQL_HOST} -e \
 		"CREATE DATABASE IF NOT EXISTS sbtest; \
 		 CREATE USER IF NOT EXISTS sbtest@'%' IDENTIFIED BY 'password'; \
