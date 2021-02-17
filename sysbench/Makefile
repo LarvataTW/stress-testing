@@ -23,22 +23,22 @@ test: ## 執行壓力測試
 .PHONY: sysbench
 sysbench: ## 執行主機基本效能測試
 	docker run --rm -v ${PWD}:/data -e TZ="Asia/Taipei" -w /data severalnines/sysbench sysbench \
-		--test=cpu \
+		cpu \
 		--cpu-max-prime=20000 \
 		run
 	docker run --rm -v ${PWD}:/data -e TZ="Asia/Taipei" -w /data severalnines/sysbench sysbench \
-		--test=fileio \
+		fileio \
 		--file-total-size=10G \
 		prepare
 	docker run --rm -v ${PWD}:/data -e TZ="Asia/Taipei" -w /data severalnines/sysbench sysbench \
-		--test=fileio \
+		fileio \
 		--file-total-size=10G \
 		--file-test-mode=rndrw \
 		--time=60 \
 		--max-requests=0 \
 		run
 	docker run --rm -v ${PWD}:/data -e TZ="Asia/Taipei" -w /data severalnines/sysbench sysbench \
-		--test=fileio \
+		fileio \
 		--file-total-size=10G \
 		cleanup
 
