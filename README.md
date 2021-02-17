@@ -25,3 +25,8 @@
 ## JMeter
 
 ## Sysbench
+
+外部數據參考：
+- https://openbenchmarking.org/test/pts/sysbench
+- https://www.vpsbenchmarks.com/compare/performances/sysbench
+- https://upcloud.com/community/stories/evaluating-cloud-server-performance-with-sysbench/
