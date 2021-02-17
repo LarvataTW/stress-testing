@@ -27,6 +27,17 @@ sysbench: ## 執行主機基本效能測試
 		--cpu-max-prime=20000 \
 		run
 	docker run --rm -v ${PWD}:/data -e TZ="Asia/Taipei" -w /data severalnines/sysbench sysbench \
+		memory \
+		--memory-block-size=8K \
+		--memory-total-size=1G \
+		--memory-oper=read \
+		run
+	docker run --rm -v ${PWD}:/data -e TZ="Asia/Taipei" -w /data severalnines/sysbench sysbench \
+		memory \
+		--memory-block-size=8K \
+		--memory-total-size=1G \
+		run
+	docker run --rm -v ${PWD}:/data -e TZ="Asia/Taipei" -w /data severalnines/sysbench sysbench \
 		fileio \
 		--file-total-size=10G \
 		prepare
